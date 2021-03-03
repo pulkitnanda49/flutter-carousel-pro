@@ -134,12 +134,13 @@ class Carousel extends StatefulWidget {
 class CarouselState extends State<Carousel> {
   Timer timer;
   int _currentImageIndex = 0;
-  PageController _controller = widget.controller ?? PageController();
+  PageController _controller;
 
   @override
   void initState() {
     super.initState();
-
+    _controller = widget.controller ?? PageController();
+    
     if (widget.images != null && widget.images.isNotEmpty) {
       if (widget.autoplay) {
         timer = Timer.periodic(widget.autoplayDuration, (_) {
