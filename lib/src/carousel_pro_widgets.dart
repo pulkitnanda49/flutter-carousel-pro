@@ -64,23 +64,23 @@ class WidgetCarousel extends StatefulWidget {
   final Duration autoplayDuration;
 
   WidgetCarousel(
-      {this.pages,
+      {required this.pages,
       this.animationCurve = Curves.ease,
       this.animationDuration = const Duration(milliseconds: 300),
       this.dotSize = 8.0,
       this.dotSpacing = 25.0,
       this.dotIncreaseSize = 2.0,
       this.dotColor = Colors.white,
-      this.dotBgColor,
+      this.dotBgColor = Colors.grey,
       this.showIndicator = true,
       this.indicatorBgPadding = 20.0,
       this.boxFit = BoxFit.cover,
       this.borderRadius = false,
-      this.radius,
+      this.radius = const Radius.circular(10.0),
       this.moveIndicatorFromBottom = 0.0,
       this.noRadiusForIndicator = false,
       this.overlayShadow = false,
-      this.overlayShadowColors,
+      this.overlayShadowColors = Colors.grey,
       this.overlayShadowSize = 0.5,
       this.autoplay = true,
       this.autoplayDuration = const Duration(seconds: 3)})
@@ -149,7 +149,7 @@ class WidgetCarouselState extends State<WidgetCarousel> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: widget.dotBgColor == null
-                        ? Colors.grey[800].withOpacity(0.5)
+                        ? Colors.grey[800]?.withOpacity(0.5)
                         : widget.dotBgColor,
                     borderRadius: widget.borderRadius
                         ? (widget.noRadiusForIndicator
@@ -199,37 +199,37 @@ class DotsIndicator extends AnimatedWidget {
       this.dotSize,
       this.dotIncreaseSize,
       this.dotSpacing})
-      : super(listenable: controller);
+      : super(listenable: controller!);
 
   // The PageController that this DotsIndicator is representing.
-  final PageController controller;
+  final PageController? controller;
 
   // The number of items managed by the PageController
-  final int itemCount;
+  final int? itemCount;
 
   // Called when a dot is tapped
-  final ValueChanged<int> onPageSelected;
+  final ValueChanged<int>? onPageSelected;
 
   // The color of the dots.
-  final Color color;
+  final Color? color;
 
   // The base size of the dots
-  final double dotSize;
+  final double? dotSize;
 
   // The increase in the size of the selected dot
-  final double dotIncreaseSize;
+  final double? dotIncreaseSize;
 
   // The distance between the center of each dot
-  final double dotSpacing;
+  final double? dotSpacing;
 
   Widget _buildDot(int index) {
     double selectedness = Curves.easeOut.transform(
       max(
         0.0,
-        1.0 - ((controller.page ?? controller.initialPage) - index).abs(),
+        1.0 - ((controller?.page ?? controller!.initialPage) - index).abs(),
       ),
     );
-    double zoom = 1.0 + (dotIncreaseSize - 1.0) * selectedness;
+    double zoom = 1.0 + (dotIncreaseSize ?? 2.0 - 1.0) * selectedness;
     return Container(
       width: dotSpacing,
       child: Center(
@@ -237,10 +237,10 @@ class DotsIndicator extends AnimatedWidget {
           color: color,
           type: MaterialType.circle,
           child: Container(
-            width: dotSize * zoom,
-            height: dotSize * zoom,
+            width: dotSize ?? 2.0 * zoom,
+            height: dotSize ?? 2.0 * zoom,
             child: InkWell(
-              onTap: () => onPageSelected(index),
+              onTap: () => onPageSelected!(index),
             ),
           ),
         ),
@@ -251,7 +251,7 @@ class DotsIndicator extends AnimatedWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List<Widget>.generate(itemCount, _buildDot),
+      children: List<Widget>.generate(itemCount!, _buildDot),
     );
   }
 }

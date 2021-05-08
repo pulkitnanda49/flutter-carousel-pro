@@ -18,6 +18,8 @@ class CarouselPage extends StatelessWidget {
           height: 150.0,
           width: 300.0,
           child: Carousel(
+            onImageChange: (_, int) {},
+            onImageTap: (_) {},
             boxFit: BoxFit.cover,
             autoplay: false,
             animationCurve: Curves.fastOutSlowIn,
@@ -30,8 +32,10 @@ class CarouselPage extends StatelessWidget {
             showIndicator: true,
             indicatorBgPadding: 7.0,
             images: [
-              NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-              NetworkImage('https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg'),
+              NetworkImage(
+                  'https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
+              NetworkImage(
+                  'https://cdn-images-1.medium.com/max/2000/1*wnIEgP1gNMrK5gZU7QS0-A.jpeg'),
               ExactAssetImage("assets/images/LaunchImage.jpg"),
             ],
           ),
